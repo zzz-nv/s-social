@@ -8,23 +8,14 @@ A social platform for desktop, inspired by X — built as a learning project to 
 
 ## Screenshots
 
-### Feed
-<img src="screenshots/feed.png" width="100%" />
+## Screenshots
 
-<br />
-
-### Messages
-<img src="screenshots/messages.png" width="100%" />
-
-<br />
-
-### Profile
-<img src="screenshots/profile.png" width="100%" />
-
-<br />
-
-### Active Chat
-<img src="screenshots/chat.png" width="100%" />
+<p align="center">
+  <a href="screenshots/feed.png"><img src="screenshots/feed.png" width="100%" /></a>
+  <a href="screenshots/messages.png"><img src="screenshots/messages.png" width="100%" /></a>
+  <a href="screenshots/profile.png"><img src="screenshots/profile.png" width="100%" /></a>
+  <a href="screenshots/chat.png"><img src="screenshots/chat.png" width="100%" /></a>
+</p>
 
 <br />
 
