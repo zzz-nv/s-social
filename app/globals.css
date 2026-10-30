@@ -84,4 +84,18 @@ button:disabled, input:disabled {
   50% { opacity: 0.45; }
 }
 
+
+
+
+/*Demo button animation*/
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+.animate-shimmer {
+  animation: shimmer 1.5s infinite;
+}
+
+
 }

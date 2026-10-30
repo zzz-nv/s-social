@@ -3,6 +3,27 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../supabase';
 import { useRouter } from 'next/navigation';
 
+const DEMO_ACCOUNTS = [
+  'dev_maria@example.com',
+  'kaito_dev@example.com',
+  'code_amelia@example.com',
+  'pixel_sofia@example.com',
+  'ui_karim@example.com',
+  'lens_jonas@example.com',
+  'maya_shoots@example.com',
+  'chaotic_leo@example.com',
+  'dumb_moments@example.com',
+  'eats_amina@example.com',
+  'words_sam@example.com',
+  'data_rin@example.com',
+  'plays_hugo@example.com',
+  'lifts_zara@example.com',
+  'sonic_theo@example.com',
+  'ahmed_sa@example.com',
+  'lina_kw@example.com',
+  'travels_mo@example.com'
+];
+
 export default function AuthPage() {
   const router = useRouter();
   const [isSignUp, setIsSignUp] = useState(false);
@@ -101,6 +122,37 @@ export default function AuthPage() {
     setError('Login succeeded but session not ready. Please refresh.');
   }
 
+
+
+  async function handleDemoLogin() {
+    setLoading(true);
+    setError('');
+    setStatus('Loading demo account…');
+
+    // Pick a random account
+    const randomEmail = DEMO_ACCOUNTS[Math.floor(Math.random() * DEMO_ACCOUNTS.length)];
+
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: randomEmail,
+      password: 'password123',
+    });
+
+    if (signInError) {
+      setError(signInError.message);
+      setLoading(false);
+      return;
+    }
+
+    
+    window.dispatchEvent(new CustomEvent('show-splash'));
+    router.push('/');
+  }
+
+ 
+
+
+
+
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-6 text-white select-none font-sans">
       <div className="w-full max-w-sm bg-surface p-8 rounded-3xl border border-border-subtle shadow-2xl">
@@ -173,10 +225,32 @@ export default function AuthPage() {
               setError('');
             }}
             className="text-text-muted hover:text-zinc-300 text-sm font-medium transition"
+            disabled={loading}
           >
             {isSignUp ? 'Already have an account? Sign in' : "Don't have an account? Sign up"}
           </button>
         </div>
+
+        {/* Divider */}
+        <div className="mt-6 flex items-center justify-center space-x-4">
+          <div className="h-px bg-border-subtle flex-1"></div>
+          <span className="text-xs text-text-muted font-mono uppercase tracking-wider">or</span>
+          <div className="h-px bg-border-subtle flex-1"></div>
+        </div>
+
+        {/* Demo Button */}
+        <button
+          onClick={handleDemoLogin}
+          disabled={loading}
+          className="relative overflow-hidden w-full mt-6 bg-brand hover:bg-brand-hover text-white font-bold py-3.5 rounded-xl transition-all duration-300 shadow-[0_0_15px_rgba(129,140,248,0.2)] hover:shadow-[0_0_25px_rgba(129,140,248,0.4)] disabled:opacity-50 active:scale-95 group"
+        >
+          {/* Shiny sweep animation on hover */}
+          <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer" />
+          
+          <span className="relative z-10 flex items-center justify-center">
+            {loading && status === 'Loading demo account…' ? 'Entering Demo…' : 'Explore Demo'}
+          </span>
+        </button>
       </div>
     </div>
   );
