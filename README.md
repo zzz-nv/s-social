@@ -6,7 +6,7 @@
 
 A social platform for desktop, inspired by X — built as a learning project to explore full-stack development with Next.js and Supabase.
 
-## Screenshots
+
 
 ## Screenshots
 
