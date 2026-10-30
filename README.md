@@ -2,7 +2,7 @@
 
 **Live Demo:** [project-s-nine-kappa.vercel.app](https://project-s-nine-kappa.vercel.app)
 
-> ⚠️ *The app requires an account to view. No email verification is needed—feel free to use a dummy email.*
+> 👉 *Click **"Explore Demo"** on the login screen to test the app instantly without creating an account.*
 
 A social platform for desktop, inspired by X — built as a learning project to explore full-stack development with Next.js and Supabase.
 
