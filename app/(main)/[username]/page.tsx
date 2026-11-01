@@ -22,7 +22,7 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
   const targetUsername = decodeURIComponent(resolvedParams.username);
   const queryClient = useQueryClient();
 
-  // ─── UI-only state (NOT cached) ───
+  // UI-only state 
   const [followModal, setFollowModal] = useState<'followers' | 'following' | null>(null);
   const [modalUsers, setModalUsers] = useState<any[]>([]);
   const [isFollowLoading, setIsFollowLoading] = useState(false);
@@ -32,7 +32,7 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
   const [justPostedId, setJustPostedId] = useState<string | null>(null);
   const [confirmRemove, setConfirmRemove] = useState<'avatar' | 'banner' | null>(null);
 
-  // ─── Cached data ───
+  //  Cached data 
   const { data, isLoading } = useQuery({
     queryKey: ['profile', targetUsername],
     queryFn: () => loadProfile(targetUsername),
@@ -52,7 +52,7 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
     return () => window.removeEventListener('post-created', handler);
   }, []);
 
-  // Check for a post we just made on another page (navigated here)
+  // Check for a post we just made on another page 
   useEffect(() => {
     const id = sessionStorage.getItem('just-posted-id');
     if (id) {
@@ -124,7 +124,7 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
         followerCount,
       }));
     } else {
-      // Invalidate feed caches so Following updates next visit
+      // Invalidate feed caches 
       queryClient.invalidateQueries({ queryKey: ['feed'] });
     }
 
@@ -136,7 +136,7 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
   async function startChat() {
     if (!currentUser || !profile) return;
 
-    // Check for an existing conversation with this user (including hidden ones)
+    // Check for an existing conversation with this user 
     const { data: myChats } = await supabase
       .from('participants')
       .select('conversation_id')
@@ -153,7 +153,7 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
         .maybeSingle();
 
       if (sharedChat) {
-        // If we had hidden ourselves, unhide — user is intentionally reopening
+        
         await supabase
           .from('participants')
           .update({ hidden_at: null })
@@ -165,7 +165,7 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
       }
     }
 
-    // No existing conversation — create one
+    // No existing conversation -> create one
     const { data: newChatId, error } = await supabase
       .rpc('create_new_chat', { other_user_id: profile.id });
 
@@ -203,7 +203,7 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
   }
 
     async function deleteTweet(tweetId: string) {
-    // Optimistic cache update — triggers the exit animation
+    // Optimistic cache update 
     setProfileData((prev) => ({
       ...prev,
       tweets: prev.tweets.filter((t: any) => t.id !== tweetId),
@@ -325,7 +325,7 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
 
 
 
-  // ─── Skeleton ───
+  // Skeleton 
   if (isLoading) return (
     <div className="min-h-screen bg-background text-foreground flex flex-col font-sans">
       <main className="flex-1 border-x border-border-subtle w-full max-w-2xl mx-auto flex flex-col pb-24">
@@ -353,7 +353,7 @@ export default function ProfilePage({ params }: { params: Promise<{ username: st
     </div>
   );
 
-  // ─── Not found ───
+  // Not found
   if (!profile) return (
     <div className="h-screen bg-background text-white flex flex-col items-center justify-center">
       <h1 className="text-2xl font-bold mb-4">User not found</h1>

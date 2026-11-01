@@ -7,7 +7,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/app/supabase';
 import { loadInbox } from '@/lib/loadInbox';
 
-// Smart timestamp: "now" → "5m" → "3h" → "3d" → "Sep 27"
+// Smart timestamp
 function formatTime(iso: string) {
   if (!iso) return '';
   const date = new Date(iso);
@@ -50,7 +50,7 @@ export default function ChatInboxPage() {
     });
   };
 
-  // Realtime — writes to cache directly, never invalidates
+  // Realtime 
   useEffect(() => {
     if (!currentUserId) return;
 
@@ -125,8 +125,8 @@ export default function ChatInboxPage() {
       .eq('user_id', userId)
       .single();
 
-    if (!myRow) return;         // Not a participant — ignore
-    if (myRow.hidden_at) return; // We've left this chat — don't resurface
+    if (!myRow) return;  // Not a participant — > ignore
+    if (myRow.hidden_at) return; // We've left this chat — > don't resurface
 
     const { data: newPartner } = await supabase
       .from('participants')

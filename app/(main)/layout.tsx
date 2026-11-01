@@ -38,7 +38,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     setIsHydrated(true);
   }, []);
 
-  // Auth gate — no protected page renders until we know the session state
+  // Auth gate 
   useEffect(() => {
     let cancelled = false;
 
@@ -84,14 +84,14 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     return () => el.removeEventListener('scroll', handleScroll);
   }, [pathname]);
 
-  // Kill the browser's native scroll restore — we handle it ourselves
+  // Kill the browser's native scroll restore
   useLayoutEffect(() => {
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
     }
   }, []);
 
-  // On refresh, force scroll to top. On SPA nav, restore position.
+  // On refresh, force scroll to top. 
   useLayoutEffect(() => {
     const el = mainRef.current;
     if (!el || !pathname) return;
@@ -171,7 +171,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
      ...(username ? [{ href: `/${username}`, label: 'Profile', path: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z' }] : []),
   ];
 
-  // While checking auth, render nothing — the splash covers the screen
+  // While checking auth, render nothing —> the splash covers the screen
   if (!authChecked) return null;
 
   return (
@@ -232,7 +232,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
             })}
           </div>
 
-          {/* POST BUTTON — sits right after Settings */}
+          {/* POST BUTTON*/}
           <button
             onClick={() => window.dispatchEvent(new CustomEvent('open-compose'))}
             className="w-[calc(100%-24px)] mx-auto block bg-brand hover:bg-brand-hover text-white font-bold text-base py-2.5 rounded-full transition-colors active:scale-[0.98] mt-4"
@@ -240,7 +240,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
             Post
           </button>
 
-          {/* PROFILE — pinned to bottom */}
+          {/* PROFILE*/}
           <div className="mt-auto">
             <LeftRailProfile />
           </div>
@@ -251,7 +251,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
 
-        {/* RIGHT COLUMN — always mounted, visually hidden in chat */}
+        {/* RIGHT COLUMN*/}
         <aside className="w-[340px] shrink-0 h-full hidden xl:block pt-4 pl-8 pr-4 overflow-y-auto no-scrollbar">
           <div className={isChat ? 'hidden' : 'block'}>
             <WhoToFollow />

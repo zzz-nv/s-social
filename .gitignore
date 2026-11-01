@@ -46,3 +46,6 @@ repomix-output.xml
 
 # VS Code personal settings
 .vscode/
+
+# Scripts
+/scripts

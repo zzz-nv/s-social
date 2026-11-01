@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useEffect, use } from 'react';
+import { useState, use } from 'react';
 import { AnimatePresence } from 'motion/react';
 import { supabase } from '@/app/supabase';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -72,7 +71,7 @@ export default function ThreadPage({ params }: { params: Promise<{ username: str
       return;
     }
 
-    // Optimistic cache update — triggers the exit animation
+    // Optimistic cache update
     setThreadData((prev) => ({
       ...prev,
       replies: prev.replies.filter((r: any) => r.id !== tweetId),

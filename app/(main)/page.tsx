@@ -4,7 +4,6 @@ import { useState, useEffect, useSyncExternalStore } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useRouter } from 'next/navigation';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/app/supabase';
 
 import InlineComposer from '@/components/InlineComposer';
 import TweetCard from '@/components/TweetCard';
@@ -89,7 +88,7 @@ export default function ProjectS() {
   
 
     async function deleteTweet(tweetId: string) {
-    // Optimistic cache update — triggers the exit animation
+    // Optimistic cache update
     queryClient.setQueryData(['feed', feedType], (prev: any) => {
       if (!prev) return prev;
       return { ...prev, tweets: prev.tweets.filter((t: any) => t.id !== tweetId) };

@@ -33,7 +33,7 @@ export default function ChatThreadPage({ params }: { params: Promise<{ id: strin
     });
   };
 
-  // Mark as read — uses the SECURITY DEFINER RPC (bypasses RLS, always commits)
+  // Mark as read 
   async function markAsRead(_userId: string) {
     const { error } = await supabase.rpc('mark_chat_read', { p_chat_id: chatId });
     if (error) {
@@ -59,7 +59,7 @@ export default function ChatThreadPage({ params }: { params: Promise<{ id: strin
     return () => document.removeEventListener('visibilitychange', handler);
   }, [chatId, currentUserId]);
 
-  // Realtime — stable channel name, writes to cache directly
+  // Realtime 
   useEffect(() => {
     if (!currentUserId) return;
 
@@ -76,17 +76,17 @@ export default function ChatThreadPage({ params }: { params: Promise<{ id: strin
           (payload) => {
           const incoming = payload.new;
 
-          // The user is in the chat — this message is now read
+          // The user is in the chat
           if (incoming.sender_id !== currentUserId) {
-            markAsRead(currentUserId); // fire-and-forget, but errors now log
+            markAsRead(currentUserId); // fire-and-forget
           }
 
           setChatData((prev) => {
-            // Already have this exact message
+            
             if (prev.messages.some((m: any) => m.id === incoming.id)) return prev;
 
-            // If a temp message with matching sender+content exists, the send
-            // function will swap it — skip to avoid a duplicate
+            
+
             const tempExists = prev.messages.some(
               (m: any) =>
                 m.id.startsWith('temp-') &&
@@ -124,7 +124,7 @@ export default function ChatThreadPage({ params }: { params: Promise<{ id: strin
       return;
     }
 
-    // Remove from inbox cache + navigate back
+    // Remove from inbox cache and navigate back
     queryClient.setQueryData(['inbox'], (prev: any) => {
       if (!prev) return prev;
       return {
@@ -178,7 +178,7 @@ export default function ChatThreadPage({ params }: { params: Promise<{ id: strin
           m.id === tempId ? { ...m, id: inserted.id, created_at: inserted.created_at } : m
         ),
       }));
-      // Sending = you've read everything up to this point
+     
       markAsRead(currentUserId);
     }
   }
@@ -188,7 +188,7 @@ export default function ChatThreadPage({ params }: { params: Promise<{ id: strin
     if (currentUserId) {
       await markAsRead(currentUserId);
     }
-    // THEN invalidate — the DB is now correct
+    // invalidate 
     queryClient.invalidateQueries({ queryKey: ['inbox'] });
     router.push('/chat');
   }

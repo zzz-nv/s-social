@@ -7,8 +7,7 @@ import RefreshSplash from '@/components/RefreshSplash';
 import SplashOverlay from '@/components/SplashOverlay';
 import ToastContainer from '@/components/Toast';
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+
 
 export const metadata: Metadata = {
   title: "S",
@@ -36,12 +35,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <body className="bg-background text-foreground antialiased selection:bg-brand selection:text-black min-h-screen">
 
-        {/* Raw splash — painted before any JS runs */}
+        {/* Raw splash*/}
         <div id="refresh-splash" suppressHydrationWarning>
           <img src="/S_logo.svg" alt="S" />
         </div>
 
-        {/* Inline script — runs synchronously, before React */}
+        {/* Inline script*/}
         <script
           suppressHydrationWarning
           dangerouslySetInnerHTML={{ __html: splashScript }}

@@ -29,13 +29,11 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   }));
 
   // Global listener: any like anywhere updates every cache that holds that tweet.
-  // This runs regardless of which page is currently mounted, which fixes the
-  // "feed X thread doesn't match" problem caused by prefetched or unmounted pages.
   useEffect(() => {
     const handler = (e: Event) => {
       const { tweetId, isLiked, likeCount } = (e as CustomEvent).detail;
 
-      // Feed caches (both global and following)
+      // Feed caches
       queryClient.setQueriesData({ queryKey: ['feed'] }, (oldData: any) => {
         if (!oldData) return oldData;
         return {

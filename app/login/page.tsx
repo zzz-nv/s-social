@@ -3,26 +3,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../supabase';
 import { useRouter } from 'next/navigation';
 
-const DEMO_ACCOUNTS = [
-  'dev_maria@example.com',
-  'kaito_dev@example.com',
-  'code_amelia@example.com',
-  'pixel_sofia@example.com',
-  'ui_karim@example.com',
-  'lens_jonas@example.com',
-  'maya_shoots@example.com',
-  'chaotic_leo@example.com',
-  'dumb_moments@example.com',
-  'eats_amina@example.com',
-  'words_sam@example.com',
-  'data_rin@example.com',
-  'plays_hugo@example.com',
-  'lifts_zara@example.com',
-  'sonic_theo@example.com',
-  'ahmed_sa@example.com',
-  'lina_kw@example.com',
-  'travels_mo@example.com'
-];
+
 
 export default function AuthPage() {
   const router = useRouter();
@@ -34,7 +15,7 @@ export default function AuthPage() {
   const [error, setError] = useState('');
   const [status, setStatus] = useState('');
 
-    // If we land on login page fresh, make sure no stale splash is showing
+    
   useEffect(() => {
     window.dispatchEvent(new CustomEvent('hide-splash'));
   }, []);
@@ -124,28 +105,45 @@ export default function AuthPage() {
 
 
 
-  async function handleDemoLogin() {
+    async function handleDemoLogin() {
     setLoading(true);
     setError('');
     setStatus('Loading demo account…');
 
-    // Pick a random account
-    const randomEmail = DEMO_ACCOUNTS[Math.floor(Math.random() * DEMO_ACCOUNTS.length)];
+    try {
+      // Fetch the usernames directly from  database
+      const { data: profiles, error: fetchError } = await supabase
+        .from('profiles')
+        .select('username');
 
-    const { error: signInError } = await supabase.auth.signInWithPassword({
-      email: randomEmail,
-      password: 'password123',
-    });
+      if (fetchError || !profiles || profiles.length === 0) {
+        throw new Error('Could not load demo accounts.');
+      }
 
-    if (signInError) {
-      setError(signInError.message);
+      
+      // Filter out my account
+      const demoPool = profiles.filter(p => p.username !== 'dark'); 
+
+      // Pick a random account from the pool
+      const randomProfile = demoPool[Math.floor(Math.random() * demoPool.length)];
+      const randomEmail = `${randomProfile.username}@example.com`;
+
+      // Log in
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: randomEmail,
+        password: 'password123',
+      });
+
+      if (signInError) throw signInError;
+
+      // Trigger the splash screen and go to feed
+      window.dispatchEvent(new CustomEvent('show-splash'));
+      router.push('/');
+      
+    } catch (err: any) {
+      setError(err.message || 'Failed to load demo account.');
       setLoading(false);
-      return;
     }
-
-    
-    window.dispatchEvent(new CustomEvent('show-splash'));
-    router.push('/');
   }
 
  

@@ -264,7 +264,7 @@ export default function SettingsPage() {
   return (
     <div className="min-h-screen bg-background text-white flex w-full">
       
-      {/* LEFT SIDEBAR: Professional Dashboard Navigation */}
+      {/* LEFT SIDEBAR*/}
       <aside className="w-80 border-r border-border-subtle bg-background flex flex-col shrink-0">
         <InlineBackButton title="Settings" />
         
@@ -322,7 +322,7 @@ export default function SettingsPage() {
         </div>
       </aside>
 
-      {/* RIGHT CANVAS: Centered, Balanced Content Area */}
+      {/* RIGHT CANVAS*/}
       <main className="flex-1 bg-background flex justify-center py-12 px-8 overflow-y-auto">
         <div className="w-full max-w-3xl space-y-8">
           
