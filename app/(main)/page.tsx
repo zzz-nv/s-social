@@ -4,6 +4,7 @@ import { useState, useEffect, useSyncExternalStore } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useRouter } from 'next/navigation';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { Users } from 'lucide-react';
 
 import InlineComposer from '@/components/InlineComposer';
 import TweetCard from '@/components/TweetCard';
@@ -160,11 +161,32 @@ export default function ProjectS() {
             ))}
           </div>
         ) : tweets.length === 0 ? (
-          <div className="p-8 text-center text-text-muted text-sm">
-            {feedType === 'following'
-              ? "Your following feed is empty. Follow some people to see their posts."
-              : "No posts yet. Be the first to post!"}
-          </div>
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col items-center justify-center p-12 text-center mt-12"
+          >
+            <div className="w-20 h-20 bg-surface rounded-full flex items-center justify-center mb-6 border border-border-subtle">
+              <Users className="w-8 h-8 text-text-muted" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">
+              {feedType === 'following' ? "You're not following anyone yet" : "No posts yet"}
+            </h3>
+            <p className="text-text-muted text-sm max-w-xs mb-6">
+              {feedType === 'following' 
+                ? "When you follow people, their posts will show up here." 
+                : "Be the first to post something!"}
+            </p>
+            
+            {feedType === 'following' && (
+              <button 
+                onClick={() => switchTab('global')}
+                className="bg-zinc-100 hover:bg-white text-black font-bold py-2.5 px-6 rounded-full transition active:scale-95"
+              >
+                Find people to follow
+              </button>
+            )}
+          </motion.div>
         ) : (
             <AnimatePresence initial={false}>
             {tweets.filter((t: any) => !t.parent_id).map((tweet: any) => (
